@@ -464,7 +464,8 @@ if __name__ == "__main__":
 '''
 
 if __name__ == "__main__":
-    example_id = "03950_gt"
+    from tqdm import tqdm 
+    example_id = "000612"
     # Lower legs
     l_idx1, l_idx2 = 17, 18
     # Right/Left foot
@@ -475,21 +476,30 @@ if __name__ == "__main__":
     r_hip, l_hip = 11, 16
     joints_num = 21
     # ds_num = 8
-    data_dir = '../dataset/kit_mocap_dataset/joints/'
-    save_dir1 = '../dataset/kit_mocap_dataset/new_joints/'
-    save_dir2 = '../dataset/kit_mocap_dataset/new_joint_vecs/'
+    # data_dir = '../dataset/kit_mocap_dataset/joints/'
+    data_dir = '/home/signvrse/momask-codes/dataset/ProcessedMotion/new_joint_vecs/'
+    save_dir1 = '/home/signvrse/momask-codes/dataset/ProcessedMotion/new_joints/'
+    save_dir2 = '/home/signvrse/momask-codes/dataset/ProcessedMotion/new_joint_vecs/'
 
     n_raw_offsets = torch.from_numpy(kit_raw_offsets)
     kinematic_chain = kit_kinematic_chain
 
     '''Get offsets of target skeleton'''
-    example_data = np.load(os.path.join(data_dir, example_id + '.npy'))
+    # example_data = np.load(os.path.join(data_dir, example_id + '.npy'))
+    example_data = np.load(os.path.join(data_dir , 'A.npy'))
+    print("Original shape:", example_data.shape)
+    padded_size = int(np.ceil(example_data.shape[1] / 3) * 3)
+    padded_data = np.pad(example_data, 
+                        ((0, 0), (0, padded_size - example_data.shape[1])),
+                        mode='constant')
+    print("Padded shape:", padded_data.shape)  # Should be (199, 264)
+    example_data = padded_data.reshape(len(padded_data), -1, 3)
     example_data = example_data.reshape(len(example_data), -1, 3)
     example_data = torch.from_numpy(example_data)
     tgt_skel = Skeleton(n_raw_offsets, kinematic_chain, 'cpu')
     # (joints_num, 3)
     tgt_offsets = tgt_skel.get_offsets_joints(example_data[0])
-    # print(tgt_offsets)
+    print(tgt_offsets)
 
     source_list = os.listdir(data_dir)
     frame_num = 0

@@ -140,7 +140,8 @@ def plot_3d_motion_v2(motion, kinematic_tree, save_path, interval=50, dataset=No
     # plt.show()
     # Writer = writers['ffmpeg']
     # writer = Writer(fps=15, metadata={})
-    ani.save(save_path, writer='pillow')
+    writer = FFMpegFileWriter(codec='mpeg4')
+    ani.save(save_path, writer=writer)
     plt.close()
 
 
@@ -213,8 +214,9 @@ def plot_3d_motion_kit(save_path, kinematic_tree, joints, title, figsize=(5, 5),
         ax.set_zticklabels([])
 
     ani = FuncAnimation(fig, update, frames=frame_number, interval=interval, repeat=True, repeat_delay=50)
+    writer = FFMpegFileWriter(codec='mpeg4')
 
-    ani.save(save_path, writer='pillow')
+    ani.save(save_path, writer=writer)
     plt.close()
 
 def plot_3d_motion_gt_pred(save_path, kinematic_tree, gt_joints, pred_joints, title, figsize=(10, 10), fps=120, radius=4):
@@ -316,8 +318,8 @@ def plot_3d_motion_gt_pred(save_path, kinematic_tree, gt_joints, pred_joints, ti
 
     ani = FuncAnimation(fig, update, frames=frame_number, interval=1000 / fps, repeat=False)
 
-    # writer = FFMpegFileWriter(fps=fps)
-    ani.save(save_path, fps=fps)
+    writer = FFMpegFileWriter(fps=fps, codec='mpeg4')
+    ani.save(save_path, writer=writer)
     plt.close()
 
 def plot_3d_motion(save_path, kinematic_tree, joints, title, figsize=(10, 10), fps=120, radius=4):
@@ -374,7 +376,7 @@ def plot_3d_motion(save_path, kinematic_tree, joints, title, figsize=(10, 10), f
     #     print(trajec.shape)
 
     def update(index):
-        #         print(index)
+        # print(index)
         ax.lines = []
         ax.collections = []
         ax.view_init(elev=120, azim=-90)
@@ -407,8 +409,8 @@ def plot_3d_motion(save_path, kinematic_tree, joints, title, figsize=(10, 10), f
 
     ani = FuncAnimation(fig, update, frames=frame_number, interval=1000 / fps, repeat=False)
 
-    # writer = FFMpegFileWriter(fps=fps)
-    ani.save(save_path, fps=fps)
+    writer = FFMpegFileWriter(fps=fps, codec='mpeg4')
+    ani.save(save_path, writer=writer)
     plt.close()
 
 
@@ -455,7 +457,8 @@ def plot_3d_motion_old(motion, pose_tree, class_type, save_path, interval=300, e
     # plt.show()
     # Writer = writers['ffmpeg']
     # writer = Writer(fps=15, metadata={})
-    ani.save(save_path, writer='pillow')
+    writer = FFMpegFileWriter(codec='mpeg4')
+    ani.save(save_path, writer=writer)
     plt.close()
 
 
@@ -483,8 +486,8 @@ def plot_2d_motion(motion, pose_tree, axis_0, axis_1, class_type, save_path, int
     # update(1)
     # plt.show()
     # Writer = writers['ffmpeg']
-    # writer = Writer(fps=15, metadata={})
-    ani.save(save_path, writer='pillow')
+    writer = FFMpegFileWriter(codec='mpeg4')
+    ani.save(save_path, writer=writer)
     plt.close()
 
 def plot_3d_multi_motion(motion_list, kinematic_tree, save_path, interval=50, dataset=None):
@@ -541,7 +544,8 @@ def plot_3d_multi_motion(motion_list, kinematic_tree, save_path, interval=50, da
     # plt.show()
     # Writer = writers['ffmpeg']
     # writer = Writer(fps=15, metadata={})
-    ani.save(save_path, writer='pillow')
+    writer = FFMpegFileWriter(codec='mpeg4')
+    ani.save(save_path, writer=writer)
     plt.close()
 
 
